@@ -6,6 +6,7 @@ import importlib
 import sys
 import hashlib
 import os
+import argparse
 
 file_info_list= []
 file_info_dict = {}
@@ -48,7 +49,9 @@ def get_file(file_hash):
 
 if __name__ == '__main__':
     init()
-    print(file_info_list)
     # debug = True时会导致__main__所在的进程反复重启
     # 而程序参数信息会在重启的时候得不到保存而丢失
-    app.run('0.0.0.0', 8081, debug=False)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--port', type=int, default=8080)
+    args = parser.parse_args()
+    app.run('0.0.0.0', args.port, debug=False)
