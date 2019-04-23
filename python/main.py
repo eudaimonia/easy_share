@@ -18,18 +18,21 @@ def init():
         })
 
 app = Flask(__name__)
+
 @app.route('/')
 def index():
     return render_template('index.html', file_info_list = file_info_list)
 
 @app.route('/<file_hash>')
 def get_file(file_hash):
-    file_name = file_info_dict.get(file_hash)
-    if not file_name:
+    file_path= file_info_dict.get(file_hash)
+    if not file_path:
         return 'file not found', 404
-    if not os.path.isfile(file_name):
+    print('access path: {}'.format(file_path))
+    if not os.path.isfile(file_path):
         return 'file not found', 404
-    return send_file(file_name)
+    file_name = os.path.basename(file_path)
+    return send_file(file_path, as_attachment=True, attachment_filename=file_name, cache_timeout=0)
 
 if __name__ == '__main__':
     init()
