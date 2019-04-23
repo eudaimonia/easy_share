@@ -7,6 +7,7 @@ import sys
 import hashlib
 import os
 import argparse
+from urllib import parse
 
 file_info_list= []
 file_info_dict = {}
@@ -41,11 +42,13 @@ def get_file(file_hash):
     file_path= file_info_dict.get(file_hash)
     if not file_path:
         return 'file not found', 404
-    print('access path: {}'.format(file_path))
-    if not os.path.isfile(file_path):
+    abs_dir = os.path.abspath(os.path.curdir)
+    abs_file_path = os.path.join(abs_dir, file_path)
+    print('access path: {}'.format(abs_file_path))
+    if not os.path.isfile(abs_file_path):
         return 'file not found', 404
     file_name = os.path.basename(file_path)
-    return send_file(file_path, as_attachment=True, attachment_filename=file_name, cache_timeout=0)
+    return send_file(abs_file_path, as_attachment=True, attachment_filename=parse.quote(file_name), cache_timeout=0)
 
 if __name__ == '__main__':
     init()
