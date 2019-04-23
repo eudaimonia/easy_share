@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name='viewport' content="initial-scale=1.0, width=device-width">
+    </head>
+    <body>
+        <ul>
+            {% for file_info in file_info_list %}
+            <li><a href="{{ file_info.key}}">{{ file_info.file_name }}</a></li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
