@@ -1,10 +1,24 @@
+#!/usr/bin/env python3
+
 from flask import Flask, render_template, send_file
+from jinja2 import FileSystemLoader, Environment, select_autoescape
+import importlib
 import sys
 import hashlib
 import os
 
 file_info_list= []
 file_info_dict = {}
+
+try:
+    config = importlib.import_module('config')
+    template_dir = config.TEMPLATE_DIR
+except ModuleNotFoundError:
+    template_dir='templates'
+loader = FileSystemLoader([template_dir])
+
+app = Flask(__name__)
+app.jinja_loader = loader
 
 def init():
     file_list:str = sys.stdin.read().strip()
@@ -16,8 +30,6 @@ def init():
             'key': key,
             'file_name': file_name
         })
-
-app = Flask(__name__)
 
 @app.route('/')
 def index():
