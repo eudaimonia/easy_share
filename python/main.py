@@ -8,6 +8,7 @@ import hashlib
 import os
 import argparse
 from urllib import parse
+import netifaces
 
 file_info_list= []
 file_info_dict = {}
@@ -33,6 +34,19 @@ def init():
             'file_name': file_name
         })
 
+def get_host_ips()-> [] :
+    ips = []
+    for iface in netifaces.interfaces():
+        adder_info = netifaces.ifaddresses(iface).get(netifaces.AF_INET)
+        if adder_info:
+            ips.append(adder_info[0]['addr'])
+    return ips
+
+def show_addr_msg(ips, port):
+    print('请访问以下地址')
+    for ip in ips:
+        print('http://{}:{}'.format(ip, port))
+
 @app.route('/')
 def index():
     return render_template('index.html', file_info_list = file_info_list)
@@ -57,4 +71,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--port', type=int, default=8080)
     args = parser.parse_args()
+    show_addr_msg(get_host_ips(), args.port)
+
     app.run('0.0.0.0', args.port, debug=False)
