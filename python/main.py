@@ -16,12 +16,16 @@ file_info_dict = {}
 try:
     config = importlib.import_module('config')
     template_dir = config.TEMPLATE_DIR
+    static_dir = config.STATIC_DIR
 except ModuleNotFoundError:
     template_dir='templates'
+    static_dir = 'static'
 loader = FileSystemLoader([template_dir])
 
 app = Flask(__name__)
 app.jinja_loader = loader
+app.static_folder = static_dir
+print(app.static_folder)
 
 def init():
     file_list:str = sys.stdin.read().strip()

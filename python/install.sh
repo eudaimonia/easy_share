@@ -7,6 +7,7 @@ mkdir -p $lib_dir
 
 cat << eof > $lib_dir/config.py 
 TEMPLATE_DIR="$lib_dir/templates"
+STATIC_DIR="$lib_dir/static"
 eof
 
 cp -R $cwd/* $lib_dir
