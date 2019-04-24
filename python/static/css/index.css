@@ -1,3 +1,15 @@
-body {
-    background-color: lightblue;
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+ul {
+    list-style: none;
+    margin-left: 1em;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+li {
+    padding-top: 1px;
 }
